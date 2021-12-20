@@ -96,9 +96,11 @@ int zlib_encode(zlib_buf_t in, zlib_buf_t *out, int level, int mode)
 
 	status = deflate(&stream, Z_FINISH);
 
-	if (status != Z_OK) {
+	if (status != Z_STREAM_END) {
 		return status;
 	}
+
+	out->size = stream.total_out;
 
 	return deflateEnd(&stream);
 }
